@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:6000/",
+  "proxy": "http://localhost:6060/",
   "dependencies": {
     "@tanstack/react-query": "^5.66.0",
     "@testing-library/jest-dom": "^4.2.4",
