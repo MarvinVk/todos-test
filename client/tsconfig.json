@@ -12,19 +12,11 @@
     "skipLibCheck": true,
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/js/*"],
-      "ziggy-js": ["./vendor/tightenco/ziggy"],
-      "@components/*": ["./src/js/components/*"],
-      "@constants/*": ["./src/js/constants/*"],
-      "@context/*": ["./src/js/context/*"],
-      "@hooks/*": ["./src/js/hooks/*"],
-      "@images/*": ["./src/images/*"],
-      "@pages/*": ["./src/js/Pages/*"],
-      "@sections/*": ["./src/js/sections/*"],
-      "@services/*": ["./src/js/services/*"],
-      "@store/*": ["./src/js/store/*"],
-      "@utils/*": ["./src/js/utils/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@context/*": ["./src/context/*"]
     }
   },
-  "include": ["src/js/**/*.ts", "src/js/**/*.tsx", "src/js/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
 }
