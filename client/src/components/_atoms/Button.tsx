@@ -5,11 +5,12 @@ import colors from '../../constants/colors';
 
 const Styled = {
   Button: styled.button`
-    padding: 10px 8px;
-    font-size: 14px;
+    padding: 10px 14px;
+    font-size: 16px;
+    cursor: pointer;
     color: ${colors.neutral100};
+    border: 1px solid ${colors.neutral800};
     border-radius: 10px;
-    border-color: ${colors.neutral800};
     background-color: ${colors.neutral800};
   `,
 };

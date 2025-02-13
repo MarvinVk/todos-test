@@ -17,13 +17,17 @@ const Styled = {
     padding: ${sizes.space}px;
   `,
   CardsHolder: styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border-radius: 20px;
+    padding: ${sizes.space}px;
     background-color: ${colors.neutral100};
   `,
   Cards: styled.ol`
     margin: 0;
+    padding: 0;
     list-style: none;
-    padding: ${sizes.space}px;
   `,
   CardsTitle: styled.h3`
     font-weight: 600;
@@ -41,17 +45,17 @@ export const App = () => {
   return (
     <div className="App">
       <Styled.Columns>
-        {columns.map((column, index) => (
-          <Styled.CardsHolder key={index}>
+        {columns.map((column) => (
+          <Styled.CardsHolder key={column.column_id}>
+            <Styled.CardsTitle>{column.title}</Styled.CardsTitle>
             <Styled.Cards>
-              <Styled.CardsTitle>{column.title}</Styled.CardsTitle>
               {column.cards.map((card) => (
                 <Styled.CardHolder key={card.id}>
                   <TodoCard title={card.title} />
                 </Styled.CardHolder>
               ))}
             </Styled.Cards>
-            <AddTodoForm />
+            <AddTodoForm columnId={column.column_id} />
           </Styled.CardsHolder>
         ))}
       </Styled.Columns>

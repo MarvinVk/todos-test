@@ -1,14 +1,16 @@
-import React, { FC } from 'react';
+import React, { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
 
 import colors from '../../constants/colors';
 
 const Styled = {
   Input: styled.input`
-    appearance: none;
-    padding: 10px 8px;
+    padding: 10px 14px;
+    width: 100%;
+    font-size: 16px;
     border-radius: 10px;
     border-color: ${colors.neutral300};
+    border: 1px solid ${colors.neutral800};
     background-color: ${colors.white};
   `,
 };
@@ -18,6 +20,7 @@ type InputProps = {
   name: string;
   value?: string;
   placeholder?: string;
+  style?: CSSProperties;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -26,15 +29,15 @@ export const Input: FC<InputProps> = ({
   name,
   value,
   placeholder,
+  style,
   onChange,
-}) => {
-  return (
-    <Styled.Input
-      type={type}
-      name={name}
-      value={value}
-      placeholder={placeholder}
-      onChange={onChange}
-    />
-  );
-};
+}) => (
+  <Styled.Input
+    type={type}
+    name={name}
+    value={value}
+    placeholder={placeholder}
+    onChange={onChange}
+    style={style}
+  />
+);
