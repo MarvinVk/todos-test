@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import colors from "../constants/colors";
-import sizes from "../constants/sizes";
+import colors from "../../constants/colors";
+import sizes from "../../constants/sizes";
 
 const Styled = {
   Component: styled.div`
