@@ -1,5 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 
 import './App.css';
@@ -8,7 +7,7 @@ import { AddTodoForm } from './components/_molecules/AddTodoForm';
 import { TodoCard } from './components/_molecules/TodoCard';
 import colors from './constants/colors';
 import sizes from './constants/sizes';
-import { ColumnType, getTodos } from './services/todos';
+import { TodoContext } from './context/todos';
 
 const Styled = {
   Columns: styled.div`
@@ -36,39 +35,8 @@ const Styled = {
   `,
 };
 
-const defaultColumns: ColumnType[] = [
-  {
-    column_id: 1,
-    title: "Todo's",
-    cards: [],
-  },
-  {
-    column_id: 2,
-    title: 'Doing',
-    cards: [],
-  },
-  {
-    column_id: 3,
-    title: 'Done',
-    cards: [],
-  },
-];
-
 export const App = () => {
-  const [columns, setColumns] = useState(defaultColumns);
-
-  const { data } = useQuery({
-    queryKey: ['todos'],
-    queryFn: getTodos,
-  });
-
-  useEffect(() => {
-    if (data) {
-      // TODO: move data to context provide and move data to the right column
-      columns[0].cards = data;
-      setColumns(columns);
-    }
-  }, [data]);
+  const { columns } = useContext(TodoContext);
 
   return (
     <div className="App">
