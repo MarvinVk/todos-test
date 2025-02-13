@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState, useMemo } from "react";
-import styled from "styled-components";
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import { getTodos } from "./services/todos";
-import { TodoCard } from "./components/_molecules/TodoCard";
-import { AddTodoForm } from "./components/_molecules/AddTodoForm";
-import colors from "./constants/colors";
-import sizes from "./constants/sizes";
+import './App.css';
 
-import "./App.css";
+import { AddTodoForm } from './components/_molecules/AddTodoForm';
+import { TodoCard } from './components/_molecules/TodoCard';
+import colors from './constants/colors';
+import sizes from './constants/sizes';
+import { ColumnType, getTodos } from './services/todos';
 
 const Styled = {
   Columns: styled.div`
@@ -29,13 +29,14 @@ const Styled = {
   CardsTitle: styled.h3`
     font-weight: 600;
     font-size: 20px;
+    margin: 0 0 ${sizes.space}px;
   `,
   CardHolder: styled.li`
     margin-bottom: ${sizes.space}px;
   `,
 };
 
-const defaultColumns = [
+const defaultColumns: ColumnType[] = [
   {
     column_id: 1,
     title: "Todo's",
@@ -43,12 +44,12 @@ const defaultColumns = [
   },
   {
     column_id: 2,
-    title: "Doing",
+    title: 'Doing',
     cards: [],
   },
   {
     column_id: 3,
-    title: "Done",
+    title: 'Done',
     cards: [],
   },
 ];
@@ -57,7 +58,7 @@ export const App = () => {
   const [columns, setColumns] = useState(defaultColumns);
 
   const { data } = useQuery({
-    queryKey: ["todos"],
+    queryKey: ['todos'],
     queryFn: getTodos,
   });
 
@@ -73,7 +74,7 @@ export const App = () => {
     <div className="App">
       <Styled.Columns>
         {columns.map((column, index) => (
-          <Styled.CardsHolder index={index}>
+          <Styled.CardsHolder key={index}>
             <Styled.Cards>
               <Styled.CardsTitle>{column.title}</Styled.CardsTitle>
               {column.cards.map((card) => (
@@ -82,7 +83,7 @@ export const App = () => {
                 </Styled.CardHolder>
               ))}
             </Styled.Cards>
-            <AddTodoForm onChange={setColumns} />
+            <AddTodoForm />
           </Styled.CardsHolder>
         ))}
       </Styled.Columns>
