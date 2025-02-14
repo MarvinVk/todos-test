@@ -3,13 +3,16 @@ import styled from 'styled-components';
 
 import './App.css';
 
-import { AddTodoForm } from './components/_molecules/AddTodoForm';
-import { TodoCard } from './components/_molecules/TodoCard';
+import { Loader } from './components/_atoms';
+import { AddTodoForm, TodoCard } from './components/_molecules';
 import colors from './constants/colors';
 import sizes from './constants/sizes';
 import { TodoContext } from './context/todos';
 
 const Styled = {
+  LoaderHolder: styled.div`
+    margin: ${sizes.space}px;
+  `,
   Columns: styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -40,22 +43,29 @@ const Styled = {
 };
 
 export const App = () => {
-  const { columns } = useContext(TodoContext);
+  const { columns, cards, isLoading } = useContext(TodoContext);
 
   return (
     <div className="App">
+      {isLoading && (
+        <Styled.LoaderHolder>
+          <Loader />
+        </Styled.LoaderHolder>
+      )}
       <Styled.Columns>
-        {columns.map((column) => (
-          <Styled.CardsHolder key={column.column_id}>
-            <Styled.CardsTitle>{column.title}</Styled.CardsTitle>
-            <Styled.Cards>
-              {column.cards.map((card) => (
-                <Styled.CardHolder key={card.id}>
-                  <TodoCard title={card.title} />
-                </Styled.CardHolder>
-              ))}
-            </Styled.Cards>
-            <AddTodoForm columnId={column.column_id} />
+        {columns.map((column, index) => (
+          <Styled.CardsHolder key={column}>
+            <div>
+              <Styled.CardsTitle>{column}</Styled.CardsTitle>
+              <Styled.Cards>
+                {cards[index]?.map((card) => (
+                  <Styled.CardHolder key={card.id}>
+                    <TodoCard title={card.title} />
+                  </Styled.CardHolder>
+                ))}
+              </Styled.Cards>
+            </div>
+            <AddTodoForm columnId={index} />
           </Styled.CardsHolder>
         ))}
       </Styled.Columns>

@@ -1,5 +1,6 @@
 export type TodoType = {
   id: number;
+  column_id: number;
   title: string;
   order: number;
 };
@@ -28,19 +29,25 @@ export const getTodos = async () => {
   }
 };
 
-export const addTodo = async (title: string, order: number) => {
+export const addTodo = async (
+  columnId: number,
+  title: string,
+  order: number,
+) => {
   let url = '/';
   if (process.env.NODE_ENV === 'development') {
     url = 'http://localhost:6060/';
   }
 
-  return await fetch(url, {
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, order }),
+    body: JSON.stringify({ column_id: columnId, title, order }),
   });
+
+  return response.json();
 };
 
 export const updateTodo = async () => {};

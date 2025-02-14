@@ -5,37 +5,26 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
-import { ColumnType, getTodos, TodoType } from '../services/todos';
+import { getTodos, TodoType } from '../services/todos';
+
+const initialColumns: string[] = ["Todo's", 'Doing', 'Done'];
 
 type TodoTypes = {
-  columns: ColumnType[];
+  columns: string[];
+  cards: { [key: string]: TodoType[] };
   addCard: (todo: TodoType) => void;
+  isLoading: boolean;
 };
-
-const initialColumns: ColumnType[] = [
-  {
-    column_id: 1,
-    title: "Todo's",
-    cards: [],
-  },
-  {
-    column_id: 2,
-    title: 'Doing',
-    cards: [],
-  },
-  {
-    column_id: 3,
-    title: 'Done',
-    cards: [],
-  },
-];
 
 export const TodoContext = createContext<TodoTypes>({
   columns: initialColumns,
+  cards: {},
   addCard: () => null,
+  isLoading: false,
 });
 
 type TodoContextProviderProps = {
@@ -45,30 +34,42 @@ type TodoContextProviderProps = {
 export const TodoContextProvider: FC<TodoContextProviderProps> = ({
   children,
 }) => {
-  const [columnsState, setColumnsState] = useState(initialColumns);
+  const [cardsState, setCardsState] = useState<TodoType[]>([]);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['todos'],
     queryFn: getTodos,
   });
 
+  const columnGroups = useMemo(
+    () =>
+      cardsState.reduce<{ [key: string]: TodoType[] }>(
+        (acc, card) => ({
+          ...acc,
+          [card.column_id]: [...(acc[card.column_id] ?? []), card],
+        }),
+        {},
+      ),
+    [cardsState],
+  );
+
   useEffect(() => {
     if (data) {
-      // TODO: move data to context provide and move data to the right column
-      columnsState[0].cards = data;
-      setColumnsState(columnsState);
+      setCardsState(data);
     }
   }, [data]);
 
   const addCard = useCallback((todo: TodoType) => {
-    // setColumnsState(todo);
+    setCardsState((oldState) => [...oldState, todo]);
   }, []);
 
   return (
     <TodoContext.Provider
       value={{
-        columns: columnsState,
+        columns: initialColumns,
+        cards: columnGroups,
         addCard,
+        isLoading,
       }}
     >
       {children}
