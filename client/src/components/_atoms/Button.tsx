@@ -2,16 +2,22 @@ import React, { FC, MouseEvent, useCallback } from 'react';
 import styled from 'styled-components';
 
 import colors from '../../constants/colors';
+import { Loader } from './';
 
 const Styled = {
   Button: styled.button`
+    display: flex;
     padding: 10px 14px;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     color: ${colors.neutral100};
     border: 1px solid ${colors.neutral800};
     border-radius: 10px;
     background-color: ${colors.neutral800};
+  `,
+  LoaderHolder: styled.span`
+    margin-right: 8px;
   `,
 };
 
@@ -50,6 +56,11 @@ export const Button: FC<ButtonProps> = ({
       disabled={disabled || loading}
       onClick={handler}
     >
+      {loading && (
+        <Styled.LoaderHolder>
+          <Loader size={17} variant="light" />
+        </Styled.LoaderHolder>
+      )}
       {children}
     </Styled.Button>
   );

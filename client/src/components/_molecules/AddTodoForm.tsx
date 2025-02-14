@@ -39,13 +39,19 @@ type AddTodoFormProps = {
 export const AddTodoForm: FC<AddTodoFormProps> = ({ columnId }) => {
   const { addCard } = useContext(TodoContext);
 
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
 
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
 
-    const response = await addTodo(title, 1);
-    addCard(columnId, response);
+    setLoading(true);
+
+    const response = await addTodo(columnId, title, 1);
+    addCard(response);
+
+    setTitle('');
+    setLoading(false);
   };
 
   return (
@@ -62,7 +68,9 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ columnId }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </Styled.InputHolder>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={loading} loading={loading}>
+            Add
+          </Button>
         </Styled.FormHolder>
       </form>
     </Styled.Component>
